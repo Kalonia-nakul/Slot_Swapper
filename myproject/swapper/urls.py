@@ -8,6 +8,6 @@ from rest_framework_simplejwt.views import (
 urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('login/' , views.login , name = 'login'),
-    path('home/' , views.home , name = 'home'),
+    path('slot_data/' , views.slot_data , name = 'home'),
+    path('add_slot/' , views.add_slot , name = 'add_slot'),
 ]

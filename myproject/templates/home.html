@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div></div>
+    <div>
+        <ul>
+            {% for slot in slots %}
+                <li>
+                    {{ slot.topic }} <br>
+                    {{slot.Date }} <br>
+                    {{slot.starttime}} - {{slot.endtime}} <br>
+                    {{slot.status}} <br><br><br>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="text" name="topic"> <br>
+            <input type="date" name="Date"> <br>
+            <input type="time" name="starttime"> <br>
+            <input type="time" name="endtime"> <br>
+            <select name="status" id="">
+                <option value="swappable">Swappable</option>
+                <option value="busy">Busy</option>
+                <option value="not_swappable">Not Swappable</option>
+            </select>
+            <button type="submit">Add Slot</button>
+        </form>
+    </div>
+</body>
+</html>
