@@ -11,21 +11,36 @@ from .models import CustomUser , Slots
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def slot_data(request):
+def user_slot_data(request , user):
     if request.method == 'GET' :
-        slots = Slots.objects.all()
+        x = CustomUser.objects.get(username=user).id
+        print(x)
+        slots = Slots.objects.filter(user_id=x)
+        print(slots)
         slots_serializer = SlotsSerializer(slots , many = True)
         return Response(slots_serializer.data , status = status.HTTP_200_OK)
-
     else :
         return Response({"message": "Invalid request method."} , status = status.HTTP_400_BAD_REQUEST)
     
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def slot_data(request , user):
+    if request.method == 'GET' :
+        x = CustomUser.objects.get(username=user).id
+        slots = Slots.objects.filter().exclude(user_id=x)
+        slots_serializer = SlotsSerializer(slots , many = True)
+        return Response(slots_serializer.data , status = status.HTTP_200_OK)
+    else :
+        return Response({"message": "Invalid request method."} , status = status.HTTP_400_BAD_REQUEST)
+    
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_slot(request):
     if request.method == 'POST' :
-        data = request.data.copy()
-        data['user'] = CustomUser.objects.get(username=data['user'])
+        data = request.data
+        print(data)
+        data['user'] = CustomUser.objects.get(username= data['user'])
         slot_serializer = SlotsSerializer(data = data)
         if slot_serializer.is_valid():
             slot_serializer.save()
@@ -34,4 +49,19 @@ def add_slot(request):
             return Response(slot_serializer.errors , status = status.HTTP_400_BAD_REQUEST)
     else :
         return Response({"message": "Invalid request method."} , status = status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def register_user(request):
+    if request.method == 'POST' :
+        print(request.data)
+        CustomUser.objects.create_user(
+            username = request.data['username'],
+            email = request.data['email'],
+            password = request.data['password']
+        )
+        return Response({"message": "User registered successfully."} , status = status.HTTP_201_CREATED)    
+    else :
+        return Response({"message": "Invalid request method."} , status = status.HTTP_400_BAD_REQUEST)
+    
     

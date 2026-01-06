@@ -6,10 +6,12 @@
     <title>Document</title>
 </head>
 <body>
-    <div></div>
+    <div>
+        <h2>Welcome, {{ Username }}!</h2>
+    </div>
     <div>
         <ul>
-            {% for slot in slots %}
+            {% for slot in user_slots %}
                 <li>
                     {{ slot.topic }} <br>
                     {{slot.Date }} <br>
@@ -33,6 +35,18 @@
             </select>
             <button type="submit">Add Slot</button>
         </form>
+    </div>
+    <div>
+        <ul>
+            {% for slot in slots %}
+                <li>
+                    {{ slot.topic }} <br>
+                    {{slot.Date }} <br>
+                    {{slot.starttime}} - {{slot.endtime}} <br>
+                    {{slot.status}} <br><br><br>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 </body>
 </html>
