@@ -7,7 +7,7 @@
 </head>
 <body>
     <div>
-        <h2>Welcome, {{ Username }}!</h2>
+        <h2>Welcome, {{ username }}!</h2>
     </div>
     <div>
         <ul>
@@ -16,7 +16,14 @@
                     {{ slot.topic }} <br>
                     {{slot.Date }} <br>
                     {{slot.starttime}} - {{slot.endtime}} <br>
-                    {{slot.status}} <br><br><br>
+                    {{slot.status}} <br>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="slot_id" value="{{ slot.id }}">
+                        <input type="hidden" name="action" value="delete">
+                        <button type="submit" name="delete_slot" value="delete slot">Delete Slot</button>
+                    </form>
+                    <br><br>
                 </li>
             {% endfor %}
         </ul>
@@ -33,7 +40,7 @@
                 <option value="busy">Busy</option>
                 <option value="not_swappable">Not Swappable</option>
             </select>
-            <button type="submit">Add Slot</button>
+            <button type="submit" value="add slot">Add Slot</button>
         </form>
     </div>
     <div>
@@ -43,7 +50,14 @@
                     {{ slot.topic }} <br>
                     {{slot.Date }} <br>
                     {{slot.starttime}} - {{slot.endtime}} <br>
-                    {{slot.status}} <br><br><br>
+                    {{slot.status}} <br>
+                    <form action="http://127.0.0.1:8000/swap/" method="get">
+                        {% csrf_token %}
+                        <input type="hidden" name="slot_id" value="{{ slot.id }}">
+                        <input type="hidden" name="username" value="{{ username }}">
+                        <button type="submit" name="request_swap">Request Swap</button>
+                    </form>
+                    <br><br>
                 </li>
             {% endfor %}
         </ul>

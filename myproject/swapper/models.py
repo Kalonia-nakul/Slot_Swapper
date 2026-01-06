@@ -14,3 +14,9 @@ class Slots(models.Model):
     starttime = models.TimeField()
     endtime = models.TimeField()
     status = models.CharField(max_length=20, choices=[('swappable', 'Swappable'), ('busy', 'Busy'), ('not_swappable', 'Not Swappable')])
+
+class RequestedSwaps(models.Model):
+    username = models.CharField(max_length=150)
+    slot_id = models.IntegerField()
+    swap_slot_id = models.IntegerField()
+    

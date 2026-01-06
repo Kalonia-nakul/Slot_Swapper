@@ -40,7 +40,7 @@ def add_slot(request):
     if request.method == 'POST' :
         data = request.data
         print(data)
-        data['user'] = CustomUser.objects.get(username= data['user'])
+        data['user'] = CustomUser.objects.get(username= data['user']).id
         slot_serializer = SlotsSerializer(data = data)
         if slot_serializer.is_valid():
             slot_serializer.save()
@@ -64,4 +64,26 @@ def register_user(request):
     else :
         return Response({"message": "Invalid request method."} , status = status.HTTP_400_BAD_REQUEST)
     
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def delete_slot(request , slot_id):
+    if request.method == 'POST' :
+        try:
+            slot = Slots.objects.get(id=slot_id)
+            slot.delete()
+            return Response({"message": "Slot deleted successfully."} , status = status.HTTP_200_OK)
+        except Slots.DoesNotExist:
+            return Response({"message": "Slot not found."} , status = status.HTTP_404_NOT_FOUND)
+    else :
+        return Response({"message": "Invalid request method."} , status = status.HTTP_400_BAD_REQUEST)
     
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def request_swap(request , slot_id):
+    if request.method == 'POST' :
+        slot_id = request.data.get('slot_id')
+        swap_slot_id = request.data.get('swap_slot_id')
+        username = request.data.get('username')
+         

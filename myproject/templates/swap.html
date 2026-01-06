@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>{{ username }} </div>
+    <div>choose from the following slots:</div>
+    <div>
+        <ul>
+            {% for x in user_slots %}
+                <li>
+                    {% if x.status == "swappable" %}
+                        {{ x.topic }} <br>
+                        {{x.Date }} <br>
+                        {{x.starttime}} - {{x.endtime}} <br>
+                        {{x.status}} <br>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="swap_slot_id" value="{{ x.id }}">
+                            <input type="hidden" name="slot_id" value="{{ slot_id }}">
+                            <input type="hidden" name="username" value="{{ username }}">
+                            <button type="submit" name="swap_slot">Swap Slot</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

@@ -12,4 +12,6 @@ urlpatterns = [
     path('slot_data/<str:user>/', views.slot_data, name='slot_data'),
     path('add_slot/' , views.add_slot , name = 'add_slot'),
     path('register/' , views.register_user , name = 'register_user'),
+    path('delete_slot/<int:slot_id>/' , views.delete_slot , name = 'delete_slot'),
+    path('request_swap/' , views.request_swap , name = 'request_swap'),
 ]
