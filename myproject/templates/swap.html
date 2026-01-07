@@ -21,9 +21,9 @@
                             {% csrf_token %}
                             <input type="hidden" name="swap_slot_id" value="{{ x.id }}">
                             <input type="hidden" name="slot_id" value="{{ slot_id }}">
-                            <input type="hidden" name="username" value="{{ username }}">
                             <button type="submit" name="swap_slot">Swap Slot</button>
                         </form>
+                        <br><br>
                     {% endif %}
                 </li>
             {% endfor %}

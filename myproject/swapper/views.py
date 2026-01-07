@@ -81,9 +81,15 @@ def delete_slot(request , slot_id):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def request_swap(request , slot_id):
+def request_swap(request ):
     if request.method == 'POST' :
         slot_id = request.data.get('slot_id')
         swap_slot_id = request.data.get('swap_slot_id')
-        username = request.data.get('username')
-         
+        try : 
+            x = Slots.objects.get(id=slot_id)
+            x.request_swap = True
+            x.swap_with = swap_slot_id
+            x.save()
+        except Slots.DoesNotExist:
+            return Response({"message": "Slot not found."} , status = status.HTTP_404_NOT_FOUND)
+        return Response({"message": "Swap request sent successfully."} , status = status.HTTP_200_OK)

@@ -10,6 +10,32 @@
         <h2>Welcome, {{ username }}!</h2>
     </div>
     <div>
+        <h2>Requests</h2>
+        <div>
+            <ul>
+            {% for slot in user_slots %}
+                {% if slot.request_swap %}
+                    <li>
+                        {{ slot.topic }} <br>
+                        {{slot.Date }} <br>
+                        {{slot.starttime}} - {{slot.endtime}} <br>
+                        {{slot.status}} <br>
+                        <div>Swap Requested With Slot ID: {{ slot.swap_with }}
+                            {% for x in slots %}
+                                {% if x.id == slot.swap_with %}
+                                    {{ x.topic }} <br>
+                                    {{x.Date }} <br>
+                                    {{x.starttime}} - {{x.endtime}} <br><br><br>
+                                {% endif %}
+                            {% endfor %}
+                        </div>   
+                    </li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div>
         <ul>
             {% for slot in user_slots %}
                 <li>
@@ -52,10 +78,9 @@
                     {{slot.starttime}} - {{slot.endtime}} <br>
                     {{slot.status}} <br>
                     <form action="http://127.0.0.1:8000/swap/" method="get">
-                        {% csrf_token %}
                         <input type="hidden" name="slot_id" value="{{ slot.id }}">
                         <input type="hidden" name="username" value="{{ username }}">
-                        <button type="submit" name="request_swap">Request Swap</button>
+                        <button type="submit" >Request Swap</button>
                     </form>
                     <br><br>
                 </li>

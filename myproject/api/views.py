@@ -75,7 +75,7 @@ def home_page(request):
             return redirect('home_page')
         
 
-def request_swap(request , slot_id):
+def request_swap(request):
 
     if request.method == 'GET' :
         slot_id = request.GET.get('slot_id')
@@ -87,5 +87,5 @@ def request_swap(request , slot_id):
     elif request.method == 'POST' :
         swap_slot_id = request.POST.get('swap_slot_id')
         slot_id = request.POST.get('slot_id')
-        username = request.POST.get('username')
-        response = requests
+        response = requests.post(f'{endpoint}request_swap/', json={'slot_id': slot_id , 'swap_slot_id' : swap_slot_id} , headers={'Authorization': f'Bearer {payload["access_token"]}'})
+        return redirect('home_page')
