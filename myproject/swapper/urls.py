@@ -14,4 +14,6 @@ urlpatterns = [
     path('register/' , views.register_user , name = 'register_user'),
     path('delete_slot/<int:slot_id>/' , views.delete_slot , name = 'delete_slot'),
     path('request_swap/' , views.request_swap , name = 'request_swap'),
+    path('accept_swap/' , views.accept_swap , name = 'accept_swap'),
+    path('decline_swap/' , views.decline_swap , name = 'decline_swap'),
 ]

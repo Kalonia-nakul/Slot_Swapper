@@ -20,12 +20,27 @@
                         {{slot.Date }} <br>
                         {{slot.starttime}} - {{slot.endtime}} <br>
                         {{slot.status}} <br>
-                        <div>Swap Requested With Slot ID: {{ slot.swap_with }}
+                        <div>Swap Requested With Slot ID: {{ slot.swap_with }} <br>
                             {% for x in slots %}
                                 {% if x.id == slot.swap_with %}
                                     {{ x.topic }} <br>
                                     {{x.Date }} <br>
-                                    {{x.starttime}} - {{x.endtime}} <br><br><br>
+                                    {{x.starttime}} - {{x.endtime}} <br>
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="slot_id" value="{{ slot.id }}">
+                                        <input type="hidden" name="swap_with_id" value="{{ x.id }}">
+                                        <input type="hidden" name="action" value="accept">
+                                        <button type="submit" name="accept_swap" value="accept swap">Accept Swap</button>
+                                    </form>
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="slot_id" value="{{ slot.id }}">
+                                        <input type="hidden" name="swap_with_id" value="{{ x.id }}">
+                                        <input type="hidden" name="action" value="decline">
+                                        <button type="submit" name="decline_swap" value="decline swap">Decline Swap</button>
+                                    </form>
+                                    <br><br>
                                 {% endif %}
                             {% endfor %}
                         </div>   
@@ -77,11 +92,13 @@
                     {{slot.Date }} <br>
                     {{slot.starttime}} - {{slot.endtime}} <br>
                     {{slot.status}} <br>
-                    <form action="http://127.0.0.1:8000/swap/" method="get">
-                        <input type="hidden" name="slot_id" value="{{ slot.id }}">
-                        <input type="hidden" name="username" value="{{ username }}">
-                        <button type="submit" >Request Swap</button>
-                    </form>
+                    {% if slot.status == "swappable" %}
+                        <form action="http://127.0.0.1:8000/swap/" method="get">
+                            <input type="hidden" name="slot_id" value="{{ slot.id }}">
+                            <input type="hidden" name="username" value="{{ username }}">
+                            <button type="submit" >Request Swap</button>
+                        </form>
+                    {% endif %}
                     <br><br>
                 </li>
             {% endfor %}

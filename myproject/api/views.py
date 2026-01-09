@@ -56,6 +56,17 @@ def home_page(request):
             response = requests.post(f'{endpoint}delete_slot/{slot_id}/', headers={'Authorization': f'Bearer {payload["access_token"]}'})
             return redirect('home_page')
 
+        elif request.POST.get('action') == 'accept':
+            slot_id = request.POST.get('slot_id')
+            swap_with_id = request.POST.get('swap_with_id')
+            response = requests.post(f'{endpoint}accept_swap/', json={'slot_id': slot_id , 'swap_with_id' : swap_with_id} , headers={'Authorization': f'Bearer {payload["access_token"]}'})
+            return redirect('home_page')
+
+        elif request.POST.get('action') == 'decline':
+            slot_id = request.POST.get('slot_id')
+            response = requests.post(f'{endpoint}decline_swap/', json={'slot_id': slot_id} , headers={'Authorization': f'Bearer {payload["access_token"]}'})
+            return redirect('home_page')
+ 
         else : 
             topic = request.POST.get('topic')
             Date = request.POST.get('Date')
