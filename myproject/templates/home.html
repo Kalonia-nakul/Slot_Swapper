@@ -51,6 +51,7 @@
         </div>
     </div>
     <div>
+        <h2>Your Slots</h2>
         <ul>
             {% for slot in user_slots %}
                 <li>
@@ -70,6 +71,9 @@
         </ul>
     </div>
     <div>
+        <h2>Add New Slot</h2>
+    </div>
+    <div>
         <form action="" method="post">
             {% csrf_token %}
             <input type="text" name="topic"> <br>
@@ -84,6 +88,7 @@
             <button type="submit" value="add slot">Add Slot</button>
         </form>
     </div>
+    <h2>Swap with...</h2>
     <div>
         <ul>
             {% for slot in slots %}

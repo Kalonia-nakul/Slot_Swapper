@@ -13,7 +13,7 @@ import datetime
 def update_status():
     date = datetime.date.today()
     time = datetime.datetime.now().time()
-    for i in Slots.objects.all():
+    for i in Slots.objects.all() :
         if i.Date == date :
             if i.starttime < time < i.endtime:
                 i.status = 'busy'
@@ -21,12 +21,9 @@ def update_status():
             
             elif time >= i.endtime:
                 i.delete()
-                i.save()
         
         if i.Date < date :
             i.delete()
-            print('entered')
-            i.save()
         
         
         
@@ -39,9 +36,7 @@ def user_slot_data(request , user):
     if request.method == 'GET' :
         update_status()
         x = CustomUser.objects.get(username=user).id
-        print(x)
         slots = Slots.objects.filter(user_id=x)
-        print(slots)
         slots_serializer = SlotsSerializer(slots , many = True)
         return Response(slots_serializer.data , status = status.HTTP_200_OK)
     else :
@@ -64,7 +59,6 @@ def slot_data(request , user):
 def add_slot(request):
     if request.method == 'POST' :
         data = request.data
-        print(data)
         data['user'] = CustomUser.objects.get(username= data['user']).id
         slot_serializer = SlotsSerializer(data = data)
         if slot_serializer.is_valid():

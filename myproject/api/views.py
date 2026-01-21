@@ -100,3 +100,4 @@ def request_swap(request):
         slot_id = request.POST.get('slot_id')
         response = requests.post(f'{endpoint}request_swap/', json={'slot_id': slot_id , 'swap_slot_id' : swap_slot_id} , headers={'Authorization': f'Bearer {payload["access_token"]}'})
         return redirect('home_page')
+    
