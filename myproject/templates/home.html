@@ -4,14 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #f6f3f3;
+            margin: 0;
+            padding: 0;
+        }
+        #heading{
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        #left-float{
+            float: left;
+            text-align : center ;
+            border: 1px solid black ;
+            border-radius : 25% ; 
+            min-width: 47% ;
+            background-color: aliceblue;
+            margin: 1%;
+        }
+        #slot{
+            float: left;
+            border: 1px solid black ;
+            border-radius : 25% ; 
+            min-width: 98% ;
+            background-color: aliceblue;
+            margin: 1%;
+            padding: 3%;
+        }
+        h2{
+            text-align: center;
+        }
+        
+    </style>
 </head>
 <body>
     <div>
-        <h2>Welcome, {{ username }}!</h2>
+        <h2 id="heading">Welcome, {{ username }}!</h2>
     </div>
-    <div>
+    <div id="left-float">
         <h2>Requests</h2>
-        <div>
+        <div class="sec">
             <ul>
             {% for slot in user_slots %}
                 {% if slot.request_swap %}
@@ -20,7 +58,7 @@
                         {{slot.Date }} <br>
                         {{slot.starttime}} - {{slot.endtime}} <br>
                         {{slot.status}} <br>
-                        <div>Swap Requested With Slot ID: {{ slot.swap_with }} <br>
+                        <div class="sec">Swap Requested With Slot ID: {{ slot.swap_with }} <br>
                             {% for x in slots %}
                                 {% if x.id == slot.swap_with %}
                                     {{ x.topic }} <br>
@@ -50,7 +88,7 @@
             </ul>
         </div>
     </div>
-    <div>
+    <div id="left-float">
         <h2>Your Slots</h2>
         <ul>
             {% for slot in user_slots %}
@@ -70,44 +108,53 @@
             {% endfor %}
         </ul>
     </div>
-    <div>
-        <h2>Add New Slot</h2>
+    <div id="slot">
+        <div>
+            <h2>Add New Slot</h2>
+        </div>
+        <div>
+            <form action="" method="post">
+                {% csrf_token %}
+                <label for="topic">Topic : </label>
+                <input type="text" name="topic"> <br>
+                <label for="Date">Date : </label>
+                <input type="date" name="Date"> <br>
+                <label for="starttime">Start-time : </label>
+                <input type="time" name="starttime"> <br>
+                <label for="endtime">End-time : </label>
+                <input type="time" name="endtime"> <br>
+                <label for="status">Status : </label>
+                <select name="status" id="">
+                    <option value="swappable">Swappable</option>
+                    <option value="busy">Busy</option>
+                    <option value="not_swappable">Not Swappable</option>
+                </select>
+                <button type="submit" value="add slot">Add Slot</button>
+            </form>
+        </div>
     </div>
-    <div>
-        <form action="" method="post">
-            {% csrf_token %}
-            <input type="text" name="topic"> <br>
-            <input type="date" name="Date"> <br>
-            <input type="time" name="starttime"> <br>
-            <input type="time" name="endtime"> <br>
-            <select name="status" id="">
-                <option value="swappable">Swappable</option>
-                <option value="busy">Busy</option>
-                <option value="not_swappable">Not Swappable</option>
-            </select>
-            <button type="submit" value="add slot">Add Slot</button>
-        </form>
-    </div>
-    <h2>Swap with...</h2>
-    <div>
-        <ul>
-            {% for slot in slots %}
+    <div id="slot">
+        <h2>Swap with...</h2>
+        <div>
+            <ul>
+                {% for slot in slots %}
                 <li>
                     {{ slot.topic }} <br>
                     {{slot.Date }} <br>
                     {{slot.starttime}} - {{slot.endtime}} <br>
                     {{slot.status}} <br>
                     {% if slot.status == "swappable" %}
-                        <form action="http://127.0.0.1:8000/swap/" method="get">
-                            <input type="hidden" name="slot_id" value="{{ slot.id }}">
-                            <input type="hidden" name="username" value="{{ username }}">
-                            <button type="submit" >Request Swap</button>
-                        </form>
+                    <form action="http://127.0.0.1:8000/swap/" method="get">
+                        <input type="hidden" name="slot_id" value="{{ slot.id }}">
+                        <input type="hidden" name="username" value="{{ username }}">
+                        <button type="submit" >Request Swap</button>
+                    </form>
                     {% endif %}
                     <br><br>
                 </li>
-            {% endfor %}
-        </ul>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-</body>
-</html>
+    </body>
+    </html>

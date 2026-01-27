@@ -4,17 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #heading{
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        #slot{
+            float: left;
+            border: 1px solid black ;
+            border-radius : 25% ; 
+            min-width: 98% ;
+            background-color: aliceblue;
+            margin: 1%;
+            padding: 2%;
+        }
+    </style>
 </head>
 <body>
-    <div>{{ username }} </div>
-    <div>choose from the following slots:</div>
-    <div>
-        <ul>
+    <div id="heading">{{ username }} </div>
+    <div id="slot">
+
+        <div>choose from the following slots:</div>
+        <div>
+            <ul>
             {% for x in user_slots %}
-                <li>
-                    {% if x.status == "swappable" %}
-                        {{ x.topic }} <br>
-                        {{x.Date }} <br>
+            <li>
+                {% if x.status == "swappable" %}
+                {{ x.topic }} <br>
+                {{x.Date }} <br>
                         {{x.starttime}} - {{x.endtime}} <br>
                         {{x.status}} <br>
                         <form action="" method="post">
@@ -26,8 +47,9 @@
                         <br><br>
                     {% endif %}
                 </li>
-            {% endfor %}
-        </ul>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-</body>
-</html>
+    </body>
+    </html>
